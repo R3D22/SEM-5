@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CNS Module Planner</title>
+    <title>CNS 20-Lecture Planner (3 Days)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Light Mode Variables - CNS Theme (Purple) */
-            --bg-color: #f8faf9;
+            /* Light Mode Variables - Deep Ocean Blue Theme */
+            --bg-color: #f4f7f9;
             --card-bg: #ffffff;
-            --primary-color: #6a1b9a; /* Purple */
+            --primary-color: #0d47a1; /* Deep Ocean Blue */
             --mcq-orange: #e67e22;
             --border-color: #e0e6e3;
             --text-dark: #1a1a1a;
-            --text-muted: #666666;
-            --hover-bg: #f3e5f5;
+            --text-muted: #546e7a;
+            --hover-bg: #e3f2fd;
             --progress-bg: #e9ecef;
-            --icon-color: #6a1b9a;
-            --icon-accent: #ab47bc;
+            --icon-color: #0d47a1;
+            --icon-accent: #1976d2;
             
             /* Subject Colors - Light */
             --c-anatomy: #e8f5e9; --t-anatomy: #2e7d32;
@@ -33,17 +33,17 @@
 
         /* Dark Mode Variables */
         body.dark-mode {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
-            --primary-color: #ce93d8; /* Light Purple for dark mode */
+            --bg-color: #0f172a; /* Slate 900 */
+            --card-bg: #1e293b; /* Slate 800 */
+            --primary-color: #64b5f6; /* Light Blue for dark mode */
             --mcq-orange: #f39c12;
-            --border-color: #333333;
-            --text-dark: #f5f5f5;
-            --text-muted: #aaaaaa;
-            --hover-bg: #2a2a2a;
-            --progress-bg: #333333;
-            --icon-color: #ce93d8;
-            --icon-accent: #e1bee7;
+            --border-color: #334155;
+            --text-dark: #f1f5f9;
+            --text-muted: #94a3b8;
+            --hover-bg: #0f172a;
+            --progress-bg: #334155;
+            --icon-color: #90caf9;
+            --icon-accent: #4fc3f7;
             
             /* Subject Colors - Dark */
             --c-anatomy: rgba(46, 125, 50, 0.2);     --t-anatomy: #81c784;
@@ -110,7 +110,7 @@
         }
         .day-card:hover { transform: translateY(-2px); }
         .day-number { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
-        .day-date { color: var(--text-muted); margin-bottom: 15px; font-weight: 500;}
+        .day-date { color: var(--text-muted); margin-bottom: 15px; font-weight: 500; font-size: 1.1rem;}
         .day-icon { margin: 15px 0; display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; }
 
         .schedule-card {
@@ -118,6 +118,7 @@
             padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); overflow-x: auto;
             transition: background-color 0.3s ease, border-color 0.3s ease;
         }
+        .schedule-header h3 { color: var(--primary-color); font-size: 1.3rem; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; }
 
         .lecture-table { width: 100%; border-collapse: collapse; }
         .lecture-table th { font-size: 0.9rem; color: var(--text-muted); padding: 12px; text-align: left; border-bottom: 2px solid var(--border-color); }
@@ -176,13 +177,13 @@
             </div>
             <button id="theme-toggle" class="theme-toggle">🌙</button>
         </div>
-        <h1 class="main-title">CENTRAL NERVOUS SYSTEM (CNS) MODULE</h1>
-        <p class="subtitle">COMPREHENSIVE STUDY PLAN: WEEKLY ORGANIZATION</p>
+        <h1 class="main-title">CNS 3-DAY BOOTCAMP</h1>
+        <p class="subtitle">20 LECTURES: COMPREHENSIVE INTEGRATED STUDY PLAN</p>
     </div>
 
     <div class="overall-progress-container">
         <div class="progress-header">
-            <span>Overall Plan Completion (Lectures & MCQs)</span>
+            <span>Overall Bootcamp Completion</span>
             <span id="overall-percentage">0%</span>
         </div>
         <div class="progress-bar-bg">
@@ -195,67 +196,71 @@
     </div>
 
     <div class="footer">
-        🧠 ⚡ 👁️ 🔬 🧬 ⚕️
+        🔥 🧠 ⚡ 🎯 🚀
     </div>
 </div>
 
 <div id="toast-container"></div>
 
 <script>
-    // --- CNS SVGs ---
-    const neuronSvg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
-        <circle cx="32" cy="24" r="8" stroke="var(--icon-color)" stroke-width="2.5"/>
-        <circle cx="32" cy="24" r="3" fill="var(--icon-accent)"/>
-        <path d="M26 18L20 12M38 18L44 12M24 30L16 36M40 30L48 36M32 16V8" stroke="var(--icon-color)" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M32 32V56" stroke="var(--icon-color)" stroke-width="2.5" stroke-linecap="round"/>
-        <rect x="28" y="36" width="8" height="6" rx="2" stroke="var(--icon-accent)" stroke-width="2"/>
-        <rect x="28" y="46" width="8" height="6" rx="2" stroke="var(--icon-accent)" stroke-width="2"/>
-        <path d="M32 56L26 62M32 56L38 62" stroke="var(--icon-color)" stroke-width="2.5" stroke-linecap="round"/>
+    const spineSvg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+        <path d="M32 10V54" stroke="var(--icon-color)" stroke-width="4" stroke-linecap="round"/>
+        <path d="M32 20L20 16M32 20L44 16M32 32L18 32M32 32L46 32M32 44L20 48M32 44L44 48" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="32" cy="20" r="3" fill="var(--card-bg)" stroke="var(--icon-color)" stroke-width="2"/>
+        <circle cx="32" cy="32" r="3" fill="var(--card-bg)" stroke="var(--icon-color)" stroke-width="2"/>
+        <circle cx="32" cy="44" r="3" fill="var(--card-bg)" stroke="var(--icon-color)" stroke-width="2"/>
     </svg>`;
 
-    const brainSvg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
-        <path d="M32 12C20 12 12 20 12 32C12 40 18 46 26 48V54C26 56 28 58 32 58C36 58 38 56 38 54V48C46 46 52 40 52 32C52 20 44 12 32 12Z" stroke="var(--icon-color)" stroke-width="2.5" stroke-linejoin="round"/>
-        <path d="M32 12V48" stroke="var(--icon-color)" stroke-width="2.5" stroke-dasharray="4 4"/>
-        <path d="M22 20C26 24 26 30 20 34" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M42 20C38 24 38 30 44 34" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M22 46C20 50 24 54 28 52" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
+    const faceBrainSvg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+        <path d="M32 10C24 10 18 16 18 26C18 36 24 46 32 54C40 46 46 36 46 26C46 16 40 10 32 10Z" stroke="var(--icon-color)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M26 24H38M32 30V40" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M22 18C26 14 38 14 42 18" stroke="var(--icon-accent)" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 2"/>
     </svg>`;
 
-    // --- DATA STRUCTURE FOR CNS ---
+    const brainstemSvg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+        <path d="M32 14C24 14 20 20 20 28C20 36 28 38 28 46V54C28 56 36 56 36 54V46C36 38 44 36 44 28C44 20 40 14 32 14Z" stroke="var(--icon-color)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M20 28H14M44 28H50M28 46H18M36 46H46" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M32 14V54" stroke="var(--icon-color)" stroke-width="2" stroke-dasharray="3 3"/>
+    </svg>`;
+
     const scheduleData = [
         {
-            week: 1, icon: neuronSvg,
+            day: 1, title: "SPINAL CORD BASICS & SENSATION", icon: spineSvg,
             lectures: [
-                { id: "L1", code: "L1", subject: "Physiology", title: "Sensory receptors, properties and sensory coding" },
-                { id: "L2", code: "L2", subject: "Physiology", title: "Mechanoreceptive and thermoreceptive sensation" },
                 { id: "L3", code: "L3", subject: "Anatomy", title: "Anatomy of spinal cord and development of CNS" },
-                { id: "L4", code: "L4", subject: "Anatomy", title: "Sensory pathways of the face: Ophthalmic nerve, Maxillary nerve" },
-                { id: "L5", code: "L5", subject: "Physiology", title: "Physiology of pain" },
                 { id: "L6", code: "L6", subject: "Histology", title: "Spinal cord" },
-                { id: "L7", code: "L7", subject: "Anatomy", title: "Sensory pathways of the face: Mandibular nerve and muscles of mastication" },
-                { id: "L8", code: "L8", subject: "Physiology", title: "Pain control and gate theory" },
-                { id: "L9", code: "L9", subject: "Anatomy", title: "Face and scalp" },
-                { id: "L10", code: "L10", subject: "Physiology", title: "Functional characteristics of somatic sensory pathway and role of sensory area" }
+                { id: "L1", code: "L1", subject: "Physiology", title: "Sensory receptors, properties and sensory coding" }
             ]
         },
         {
-            week: 2, icon: brainSvg,
+            day: 2, title: "PAIN, THE FACE & BRAIN METABOLISM", icon: faceBrainSvg,
+            lectures: [
+                { id: "L2", code: "L2", subject: "Physiology", title: "Mechanoreceptive and thermoreceptive sensation" },
+                { id: "L5", code: "L5", subject: "Physiology", title: "Physiology of pain" },
+                { id: "L8", code: "L8", subject: "Physiology", title: "Pain control and gate theory" },
+                { id: "L10", code: "L10", subject: "Physiology", title: "Functional characteristics of somatic sensory pathway and role of sensory area" },
+                { id: "L9", code: "L9", subject: "Anatomy", title: "Face and scalp" },
+                { id: "L15", code: "L15", subject: "Anatomy", title: "Facial nerve" },
+                { id: "L4", code: "L4", subject: "Anatomy", title: "Sensory pathways of the face: Ophthalmic nerve, Maxillary nerve" },
+                { id: "L7", code: "L7", subject: "Anatomy", title: "Sensory pathways of the face: Mandibular nerve and muscles of mastication" },
+                { id: "L16", code: "L16", subject: "Biochemistry", title: "Brain Metabolism" }
+            ]
+        },
+        {
+            day: 3, title: "BRAINSTEM, SYNAPSES & MOTOR CONTROL", icon: brainstemSvg,
             lectures: [
                 { id: "L11", code: "L11", subject: "Histology", title: "Cerebrum & Cerebellum" },
                 { id: "L12", code: "L12", subject: "Anatomy", title: "Medulla oblongata and pons" },
                 { id: "L13", code: "L13", subject: "Anatomy", title: "Midbrain" },
-                { id: "L14", code: "L14", subject: "Physiology", title: "Synapses, synaptic transmission and their properties" },
-                { id: "L15", code: "L15", subject: "Anatomy", title: "Facial nerve" },
-                { id: "L16", code: "L16", subject: "Biochemistry", title: "Brain Metabolism" },
-                { id: "L17", code: "L17", subject: "Physiology", title: "Reflex action, character and polysynaptic reflex properties" },
                 { id: "L18", code: "L18", subject: "Anatomy", title: "Last 4 cranial nerves" },
+                { id: "L14", code: "L14", subject: "Physiology", title: "Synapses, synaptic transmission and their properties" },
+                { id: "L17", code: "L17", subject: "Physiology", title: "Reflex action, character and polysynaptic reflex properties" },
                 { id: "L19", code: "L19", subject: "Physiology", title: "Stretch and inverse stretch reflex" },
                 { id: "L20", code: "L20", subject: "Physiology", title: "Motor cortex and descending tracts" }
             ]
         }
     ];
 
-    // --- Dark Mode ---
     const themeToggle = document.getElementById('theme-toggle');
     const currentTheme = localStorage.getItem('theme') || 'light';
     
@@ -278,11 +283,10 @@
         localStorage.setItem('theme', theme);
     });
 
-    // --- Data Persistence ---
-    let savedProgress = JSON.parse(localStorage.getItem('cnsProgressPlanner')) || {};
+    let savedProgress = JSON.parse(localStorage.getItem('cnsPlan20Lectures')) || {};
 
     function saveProgress() {
-        localStorage.setItem('cnsProgressPlanner', JSON.stringify(savedProgress));
+        localStorage.setItem('cnsPlan20Lectures', JSON.stringify(savedProgress));
         updateProgressBars();
     }
 
@@ -307,26 +311,26 @@
         let totalTasks = 0;
         let completedTasks = 0;
 
-        scheduleData.forEach(weekData => {
-            let weekTotalTasks = weekData.lectures.length * 2;
-            let weekCompletedTasks = 0;
+        scheduleData.forEach(dayData => {
+            let dayTotalTasks = dayData.lectures.length * 2;
+            let dayCompletedTasks = 0;
 
-            weekData.lectures.forEach(lec => {
+            dayData.lectures.forEach(lec => {
                 totalTasks += 2;
                 
                 if (savedProgress[lec.id]) {
                     completedTasks++;
-                    weekCompletedTasks++;
+                    dayCompletedTasks++;
                 }
                 if (savedProgress[lec.id + '_mcq']) {
                     completedTasks++;
-                    weekCompletedTasks++;
+                    dayCompletedTasks++;
                 }
             });
 
-            const weekBar = document.getElementById(`week-fill-${weekData.week}`);
-            if(weekBar) {
-                weekBar.style.width = `${(weekCompletedTasks / weekTotalTasks) * 100}%`;
+            const dayBar = document.getElementById(`day-fill-${dayData.day}`);
+            if(dayBar) {
+                dayBar.style.width = `${(dayCompletedTasks / dayTotalTasks) * 100}%`;
             }
         });
 
@@ -339,9 +343,9 @@
         const container = document.getElementById('schedule-container');
         container.innerHTML = ''; 
 
-        scheduleData.forEach(weekData => {
+        scheduleData.forEach(dayData => {
             let rowsHtml = '';
-            weekData.lectures.forEach(lec => {
+            dayData.lectures.forEach(lec => {
                 const isLecChecked = savedProgress[lec.id] ? 'checked' : '';
                 const isMcqChecked = savedProgress[lec.id + '_mcq'] ? 'checked' : '';
                 const completedClass = (isLecChecked && isMcqChecked) ? 'completed' : '';
@@ -364,18 +368,21 @@
                 `;
             });
 
-            const weekCount = weekData.lectures.length;
-            const weekHTML = `
+            const lecCount = dayData.lectures.length;
+            const dayHTML = `
                 <div class="day-section">
                     <div class="day-card">
-                        <div class="day-number">WEEK ${weekData.week}</div>
-                        <div class="day-date">${weekCount} Lectures</div>
-                        <div class="day-icon">${weekData.icon}</div>
+                        <div class="day-number">DAY ${dayData.day}</div>
+                        <div class="day-date">${lecCount} Lectures</div>
+                        <div class="day-icon">${dayData.icon}</div>
                         <div class="progress-bar-bg" style="width: 100%; height: 8px; margin-top: 15px;">
-                            <div class="progress-bar-fill" id="week-fill-${weekData.week}"></div>
+                            <div class="progress-bar-fill" id="day-fill-${dayData.day}"></div>
                         </div>
                     </div>
                     <div class="schedule-card">
+                        <div class="schedule-header">
+                            <h3>${dayData.title}</h3>
+                        </div>
                         <table class="lecture-table">
                             <thead>
                                 <tr>
@@ -393,13 +400,12 @@
                     </div>
                 </div>
             `;
-            container.innerHTML += weekHTML;
+            container.innerHTML += dayHTML;
         });
 
         updateProgressBars();
     }
 
-    // --- نظام الأذكار التلقائي ---
     const athkar = [
         "صلِّ على النبي ﷺ",
         "سبحان الله وبحمده، سبحان الله العظيم",
@@ -425,26 +431,20 @@
 
         container.appendChild(toast);
 
-        setTimeout(() => {
-            toast.classList.add('show');
-        }, 100);
+        setTimeout(() => { toast.classList.add('show'); }, 100);
 
         setTimeout(() => {
             toast.classList.remove('show');
-            setTimeout(() => {
-                toast.remove();
-            }, 500);
+            setTimeout(() => { toast.remove(); }, 500);
         }, 8000);
     }
 
     setInterval(showThikr, 300000); 
     setTimeout(showThikr, 10000);
 
-    // Initial load
     window.onload = renderSchedule;
 
 </script>
 
 </body>
 </html>
-```eof
