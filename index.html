@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CNS 20-Lecture Planner (3 Days Mixed)</title>
+    <title>CNS 17-Lecture Planner (4 Days)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -177,8 +177,8 @@
             </div>
             <button id="theme-toggle" class="theme-toggle">🌙</button>
         </div>
-        <h1 class="main-title">CNS 3-DAY BOOTCAMP</h1>
-        <p class="subtitle">20 LECTURES: MIXED WEEK 1 & WEEK 2 PLAN</p>
+        <h1 class="main-title">CNS 4-DAY RESCUE PLAN</h1>
+        <p class="subtitle">17 LECTURES: WEDNESDAY TO SATURDAY PLAN</p>
     </div>
 
     <div class="overall-progress-container">
@@ -203,63 +203,68 @@
 <div id="toast-container"></div>
 
 <script>
-    const spineSynapseSvg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
-        <path d="M24 10V54" stroke="var(--icon-color)" stroke-width="4" stroke-linecap="round"/>
-        <path d="M24 20L12 16M24 20L36 16M24 32L10 32M24 32L38 32M24 44L12 48M24 44L36 48" stroke="var(--icon-color)" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M44 24C48 24 54 28 54 32C54 36 48 40 44 40" stroke="var(--icon-accent)" stroke-width="3" stroke-linecap="round"/>
-        <circle cx="44" cy="32" r="3" fill="var(--icon-accent)"/>
-        <circle cx="50" cy="32" r="1.5" fill="var(--card-bg)"/>
+    const day1Svg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+        <path d="M32 12C20 12 12 20 12 32C12 40 18 46 26 48V54C26 56 28 58 32 58C36 58 38 56 38 54V48C46 46 52 40 52 32C52 20 44 12 32 12Z" stroke="var(--icon-color)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M32 12V48" stroke="var(--icon-color)" stroke-width="2.5" stroke-dasharray="4 4"/>
+        <path d="M22 20C26 24 26 30 20 34" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M42 20C38 24 38 30 44 34" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
     </svg>`;
 
-    const sensationBrainstemSvg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
-        <path d="M32 14C24 14 20 20 20 28C20 36 28 38 28 46V54C28 56 36 56 36 54V46C36 38 44 36 44 28C44 20 40 14 32 14Z" stroke="var(--icon-color)" stroke-width="2.5" stroke-linejoin="round"/>
-        <path d="M20 28H14M44 28H50M28 46H18M36 46H46" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M32 14V54" stroke="var(--icon-color)" stroke-width="2" stroke-dasharray="3 3"/>
-        <circle cx="10" cy="28" r="3" fill="var(--icon-accent)"/>
-        <circle cx="54" cy="28" r="3" fill="var(--icon-accent)"/>
+    const day2Svg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+        <circle cx="32" cy="32" r="20" stroke="var(--icon-color)" stroke-width="2.5"/>
+        <path d="M32 12V52M12 32H52" stroke="var(--icon-color)" stroke-width="2.5" stroke-dasharray="4 4"/>
+        <circle cx="32" cy="32" r="6" fill="var(--icon-accent)"/>
+        <path d="M22 22L42 42M22 42L42 22" stroke="var(--icon-accent)" stroke-width="2" stroke-linecap="round"/>
     </svg>`;
 
-    const faceMotorSvg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+    const day3Svg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+        <path d="M22 32C22 20 42 20 42 32C42 44 22 44 22 32Z" stroke="var(--icon-color)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M22 32C10 32 10 16 22 16M42 32C54 32 54 48 42 48" stroke="var(--icon-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M20 12L24 16L20 20M44 44L40 48L44 52" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>`;
+
+    const day4Svg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
         <path d="M32 10C24 10 18 16 18 26C18 36 24 46 32 54C40 46 46 36 46 26C46 16 40 10 32 10Z" stroke="var(--icon-color)" stroke-width="2.5" stroke-linecap="round"/>
         <path d="M26 24H38M32 30V40" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
-        <path d="M22 18C26 14 38 14 42 18" stroke="var(--icon-accent)" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 2"/>
         <path d="M32 40L24 48M32 40L40 48" stroke="var(--icon-color)" stroke-width="2" stroke-linecap="round"/>
     </svg>`;
 
     const scheduleData = [
         {
-            day: 1, title: "SPINAL CORD & SYNAPSES", icon: spineSynapseSvg,
+            id: "wed", dayName: "WEDNESDAY", subtitle: "Half Day", title: "CEREBRUM & BASAL GANGLIA", icon: day1Svg,
             lectures: [
-                { id: "L3", code: "L3", subject: "Anatomy", title: "Anatomy of spinal cord and development of CNS" },
-                { id: "L6", code: "L6", subject: "Histology", title: "Spinal cord" },
-                { id: "L14", code: "L14", subject: "Physiology", title: "Synapses, synaptic transmission and their properties" }
+                { id: "L21", code: "L21", subject: "Anatomy", title: "External Features of Cerebrum" },
+                { id: "L25", code: "L25", subject: "Physiology", title: "Basal Ganglia" },
+                { id: "L26", code: "L26", subject: "Parasitology", title: "African Trypanosomiasis" }
             ]
         },
         {
-            day: 2, title: "SENSATION, PAIN & BRAINSTEM", icon: sensationBrainstemSvg,
+            id: "thu", dayName: "THURSDAY", subtitle: "Full Day", title: "INTERNAL BRAIN & LESIONS", icon: day2Svg,
             lectures: [
-                { id: "L12", code: "L12", subject: "Anatomy", title: "Medulla oblongata and pons" },
-                { id: "L13", code: "L13", subject: "Anatomy", title: "Midbrain" },
-                { id: "L11", code: "L11", subject: "Histology", title: "Cerebrum & Cerebellum" },
-                { id: "L1", code: "L1", subject: "Physiology", title: "Sensory receptors, properties and sensory coding" },
-                { id: "L2", code: "L2", subject: "Physiology", title: "Mechanoreceptive and thermoreceptive sensation" },
-                { id: "L5", code: "L5", subject: "Physiology", title: "Physiology of pain" },
-                { id: "L8", code: "L8", subject: "Physiology", title: "Pain control and gate theory" },
-                { id: "L10", code: "L10", subject: "Physiology", title: "Functional characteristics of somatic sensory pathway and role of sensory area" },
-                { id: "L16", code: "L16", subject: "Biochemistry", title: "Brain Metabolism" }
+                { id: "L27", code: "L27", subject: "Anatomy", title: "Internal Structure of Brain & Lateral Ventricle" },
+                { id: "L28", code: "L28", subject: "Physiology", title: "U.M.N.L & L.M.N.L" },
+                { id: "L33", code: "L33", subject: "Pharmacology", title: "Anti-Depressant" },
+                { id: "L29", code: "L29", subject: "Anatomy", title: "Dural Folds & Sinuses" },
+                { id: "L38", code: "L38", subject: "Pathology", title: "Congenital & Vascular CNS Lesions" }
             ]
         },
         {
-            day: 3, title: "THE FACE, REFLEXES & MOTOR CONTROL", icon: faceMotorSvg,
+            id: "fri", dayName: "FRIDAY", subtitle: "Full Day", title: "CEREBELLUM & BLOOD SUPPLY", icon: day3Svg,
             lectures: [
-                { id: "L9", code: "L9", subject: "Anatomy", title: "Face and scalp" },
-                { id: "L4", code: "L4", subject: "Anatomy", title: "Sensory pathways of the face: Ophthalmic nerve, Maxillary nerve" },
-                { id: "L7", code: "L7", subject: "Anatomy", title: "Sensory pathways of the face: Mandibular nerve and muscles of mastication" },
-                { id: "L15", code: "L15", subject: "Anatomy", title: "Facial nerve" },
-                { id: "L18", code: "L18", subject: "Anatomy", title: "Last 4 cranial nerves" },
-                { id: "L17", code: "L17", subject: "Physiology", title: "Reflex action, character and polysynaptic reflex properties" },
-                { id: "L19", code: "L19", subject: "Physiology", title: "Stretch and inverse stretch reflex" },
-                { id: "L20", code: "L20", subject: "Physiology", title: "Motor cortex and descending tracts" }
+                { id: "L30", code: "L30", subject: "Physiology", title: "Cerebellum" },
+                { id: "L31", code: "L31", subject: "Anatomy", title: "Blood Supply of the CNS" },
+                { id: "L34", code: "L34", subject: "Parasitology", title: "Free-Living Amoeba" },
+                { id: "L37", code: "L37", subject: "Physiology", title: "Thalamus & Reticular Activating System" },
+                { id: "L35", code: "L35", subject: "Anatomy", title: "Blood Supply of Head & Neck" }
+            ]
+        },
+        {
+            id: "sat", dayName: "SATURDAY", subtitle: "Full Day", title: "NECK, VESTIBULAR & INFECTIONS", icon: day4Svg,
+            lectures: [
+                { id: "L32", code: "L32", subject: "Physiology", title: "Vestibular Apparatus" },
+                { id: "L36", code: "L36", subject: "Pharmacology", title: "Anti-Psychotic Drugs" },
+                { id: "L39", code: "L39", subject: "Anatomy", title: "Anterior & Posterior Triangle of the Neck" },
+                { id: "L40", code: "L40", subject: "Pathology", title: "CNS Infections" }
             ]
         }
     ];
@@ -286,7 +291,7 @@
         localStorage.setItem('theme', theme);
     });
 
-    let savedProgress = JSON.parse(localStorage.getItem('cnsPlan20LecturesMixed')) || {};
+    let savedProgress = JSON.parse(localStorage.getItem('cnsPlan17Lecs4Days')) || {};
 
     function saveProgress() {
         localStorage.setItem('cnsPlan20LecturesMixed', JSON.stringify(savedProgress));
@@ -331,7 +336,7 @@
                 }
             });
 
-            const dayBar = document.getElementById(`day-fill-${dayData.day}`);
+            const dayBar = document.getElementById(`day-fill-${dayData.id}`);
             if(dayBar) {
                 dayBar.style.width = `${(dayCompletedTasks / dayTotalTasks) * 100}%`;
             }
@@ -375,11 +380,11 @@
             const dayHTML = `
                 <div class="day-section">
                     <div class="day-card">
-                        <div class="day-number">DAY ${dayData.day}</div>
-                        <div class="day-date">${lecCount} Lectures</div>
+                        <div class="day-number" style="font-size: 1.3rem;">${dayData.dayName}</div>
+                        <div class="day-date">${dayData.subtitle} • ${lecCount} Lecs</div>
                         <div class="day-icon">${dayData.icon}</div>
                         <div class="progress-bar-bg" style="width: 100%; height: 8px; margin-top: 15px;">
-                            <div class="progress-bar-fill" id="day-fill-${dayData.day}"></div>
+                            <div class="progress-bar-fill" id="day-fill-${dayData.id}"></div>
                         </div>
                     </div>
                     <div class="schedule-card">
