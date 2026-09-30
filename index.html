@@ -1,15 +1,164 @@
-<!-- ... existing code ... -->
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CNS 20-Lecture Planner (4 Days)</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-<!-- ... existing code ... -->
-```
+        :root {
+            /* Light Mode Variables - Deep Ocean Blue Theme */
+            --bg-color: #f8faf9;
+            --card-bg: #ffffff;
+            --primary-color: #0277bd; 
+            --mcq-orange: #e67e22;
+            --border-color: #e0e6e3;
+            --text-dark: #1a1a1a;
+            --text-muted: #666666;
+            --hover-bg: #e1f5fe;
+            --progress-bg: #e9ecef;
+            --icon-color: #0277bd;
+            --icon-accent: #039be5;
+            
+            /* Subject Colors - Light */
+            --c-anatomy: #e8f5e9; --t-anatomy: #2e7d32;
+            --c-histology: #f3e5f5; --t-histology: #7b1fa2;
+            --c-physiology: #e3f2fd; --t-physiology: #1976d2;
+            --c-pathology: #fff3e0; --t-pathology: #e65100;
+            --c-microbiology: #e0f2f1; --t-microbiology: #00796b;
+            --c-pharmacology: #ffebee; --t-pharmacology: #c62828;
+            --c-parasitology: #fffde7; --t-parasitology: #fbc02d;
+            --c-biochemistry: #e8eaf6; --t-biochemistry: #3f51b5;
+        }
 
-```html:CNS Rescue Planner:cns_rescue_planner.html
-<!-- ... existing code ... -->
+        body.dark-mode {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --primary-color: #29b6f6;
+            --mcq-orange: #f39c12;
+            --border-color: #333333;
+            --text-dark: #f5f5f5;
+            --text-muted: #aaaaaa;
+            --hover-bg: #2a2a2a;
+            --progress-bg: #333333;
+            --icon-color: #29b6f6;
+            --icon-accent: #81d4fa;
+            
+            /* Subject Colors - Dark */
+            --c-anatomy: rgba(46, 125, 50, 0.2);     --t-anatomy: #81c784;
+            --c-histology: rgba(123, 31, 162, 0.2);  --t-histology: #ce93d8;
+            --c-physiology: rgba(25, 118, 210, 0.2); --t-physiology: #90caf9;
+            --c-pathology: rgba(230, 81, 0, 0.2);    --t-pathology: #ffb74d;
+            --c-microbiology: rgba(0, 121, 107, 0.2);--t-microbiology: #80cbc4;
+            --c-pharmacology: rgba(198, 40, 40, 0.2);--t-pharmacology: #ef9a9a;
+            --c-parasitology: rgba(251, 192, 45, 0.2);--t-parasitology: #fff59d;
+            --c-biochemistry: rgba(63, 81, 181, 0.2); --t-biochemistry: #9fa8da;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-dark);
+            padding: 20px;
+            line-height: 1.6;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding-bottom: 40px; }
+
+        .header {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--primary-color);
+            position: relative;
+            transition: border-color 0.3s ease;
+        }
+
+        .header-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 15px; }
+
+        .theme-toggle {
+            background: var(--card-bg); color: var(--text-dark); border: 1px solid var(--border-color);
+            width: 45px; height: 45px; border-radius: 50%; cursor: pointer; font-size: 1.3rem;
+            display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .theme-toggle:hover { border-color: var(--primary-color); transform: scale(1.05); }
+
+        .univ-title { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .main-title { font-size: 2.5rem; color: var(--primary-color); font-weight: 700; margin-top: 15px; transition: color 0.3s; }
+        .subtitle { font-size: 1.2rem; color: var(--text-muted); margin-bottom: 10px; }
+
+        .overall-progress-container {
+            background: var(--card-bg); padding: 20px; border-radius: 12px;
+            border: 1px solid var(--border-color); box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            margin-bottom: 30px; transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .progress-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: 600; color: var(--primary-color); }
+        .progress-bar-bg { background-color: var(--progress-bg); height: 12px; border-radius: 10px; overflow: hidden; }
+        .progress-bar-fill { background-color: var(--primary-color); height: 100%; width: 0%; transition: width 0.5s ease-in-out; }
+
+        .day-section { display: grid; grid-template-columns: 280px 1fr; gap: 24px; margin-bottom: 30px; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .day-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px;
+            padding: 24px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: transform 0.2s, background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .day-card:hover { transform: translateY(-2px); }
+        .day-number { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
+        .day-date { color: var(--text-muted); margin-bottom: 15px; font-weight: 500;}
+        .day-icon { margin: 15px 0; display: flex; align-items: center; justify-content: center; width: 70px; height: 70px; }
+
+        .schedule-card {
+            background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px;
+            padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); overflow-x: auto;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .lecture-table { width: 100%; border-collapse: collapse; }
+        .lecture-table th { font-size: 0.9rem; color: var(--text-muted); padding: 12px; text-align: left; border-bottom: 2px solid var(--border-color); }
+        .lecture-table td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        .lecture-table tr { transition: background-color 0.2s, opacity 0.3s; }
+        .lecture-table tr:hover { background-color: var(--hover-bg); }
+        .lecture-table tr.completed td { opacity: 0.4; }
+        .lecture-table tr.completed td:not(:first-child):not(:nth-child(2)) { text-decoration: line-through; }
+
+        .checkbox-cell { width: 50px; text-align: center !important; }
+        input[type="checkbox"] { width: 22px; height: 22px; cursor: pointer; }
+        .check-lec { accent-color: var(--primary-color); }
+        .check-mcq { accent-color: var(--mcq-orange); }
+
+        .lecture-link { color: var(--text-dark); text-decoration: none; font-weight: 500; transition: color 0.2s; display: inline-block; width: 100%; }
+        .lecture-link:hover { color: var(--primary-color); text-decoration: underline; cursor: pointer; }
+
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; display: inline-block; }
+        .subject-anatomy { background-color: var(--c-anatomy); color: var(--t-anatomy); }
+        .subject-histology { background-color: var(--c-histology); color: var(--t-histology); }
+        .subject-physiology { background-color: var(--c-physiology); color: var(--t-physiology); }
+        .subject-pathology { background-color: var(--c-pathology); color: var(--t-pathology); }
+        .subject-microbiology { background-color: var(--c-microbiology); color: var(--t-microbiology); }
+        .subject-pharmacology { background-color: var(--c-pharmacology); color: var(--t-pharmacology); }
+        .subject-parasitology { background-color: var(--c-parasitology); color: var(--t-parasitology); }
+        .subject-biochemistry { background-color: var(--c-biochemistry); color: var(--t-biochemistry); }
+
+        .footer { text-align: center; margin-top: 50px; padding: 30px; border-top: 1px solid var(--border-color); color: var(--primary-color); font-size: 1.2rem; letter-spacing: 10px; }
+
+        @media (max-width: 768px) {
+            .day-section { grid-template-columns: 1fr; }
+            .day-card { flex-direction: row; justify-content: space-around; padding: 15px; }
+            .day-icon { margin: 0; width: 50px; height: 50px; }
+            .lecture-table th { display: none; }
+            .lecture-table td { display: block; padding: 5px 10px; border: none; text-align: left !important; }
+            .lecture-table td.checkbox-cell { display: inline-block; width: auto; margin-right: 15px; }
+            .lecture-table tr { display: block; border-bottom: 1px solid var(--border-color); padding: 10px 0; }
+            .header-top { flex-direction: row; align-items: center; }
+        }
+    </style>
+</head>
+<body>
 <div class="container">
     <div class="header">
         <div class="header-top">
@@ -20,15 +169,50 @@
             <button id="theme-toggle" class="theme-toggle">🌙</button>
         </div>
         <h1 class="main-title">CNS 4-DAY RESCUE PLAN</h1>
-        <p class="subtitle">20 LECTURES: WEDNESDAY TO SATURDAY PLAN</p>
+        <p class="subtitle">20 LECTURES: WEDNESDAY TO SATURDAY</p>
     </div>
 
     <div class="overall-progress-container">
-<!-- ... existing code ... -->
-```
+        <div class="progress-header">
+            <span>Overall Plan Completion (Lectures & MCQs)</span>
+            <span id="overall-percentage">0%</span>
+        </div>
+        <div class="progress-bar-bg">
+            <div class="progress-bar-fill" id="overall-fill"></div>
+        </div>
+    </div>
 
-```html:CNS Rescue Planner:cns_rescue_planner.html
-<!-- ... existing code ... -->
+    <div id="schedule-container">
+        <!-- Content will be generated by JavaScript -->
+    </div>
+
+    <div class="footer">
+        🧠 ⚡ 👁️ 🔬 🧬 ⚕️
+    </div>
+</div>
+
+<script>
+    const day1Svg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+        <path d="M32 12C20 12 12 20 12 32C12 40 18 46 26 48V54C26 56 28 58 32 58C36 58 38 56 38 54V48C46 46 52 40 52 32C52 20 44 12 32 12Z" stroke="var(--icon-color)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M32 12V48" stroke="var(--icon-color)" stroke-width="2.5" stroke-dasharray="4 4"/>
+        <path d="M22 20C26 24 26 30 20 34" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="32" cy="32" r="6" stroke="var(--icon-accent)" stroke-width="2.5"/>
+    </svg>`;
+
+    const day2Svg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+        <path d="M12 32C12 20 20 12 32 12C44 12 52 20 52 32" stroke="var(--icon-color)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M22 32V42C22 46 26 48 32 48C38 48 42 46 42 42V32" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linejoin="round"/>
+        <path d="M32 48V56M26 56H38" stroke="var(--icon-color)" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="24" cy="24" r="2" fill="var(--icon-accent)"/>
+        <circle cx="40" cy="24" r="2" fill="var(--icon-accent)"/>
+    </svg>`;
+
+    const day3Svg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
+        <circle cx="32" cy="32" r="20" stroke="var(--icon-color)" stroke-width="2.5"/>
+        <path d="M16 32C16 32 24 40 32 40C40 40 48 32 48 32" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
+        <path d="M32 16V48M16 32H48" stroke="var(--icon-color)" stroke-width="2.5" stroke-dasharray="4 4"/>
+    </svg>`;
+
     const day4Svg = `<svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%; height:100%;">
         <path d="M32 10C24 10 18 16 18 26C18 36 24 46 32 54C40 46 46 36 46 26C46 16 40 10 32 10Z" stroke="var(--icon-color)" stroke-width="2.5" stroke-linecap="round"/>
         <path d="M26 24H38M32 30V40" stroke="var(--icon-accent)" stroke-width="2.5" stroke-linecap="round"/>
@@ -59,11 +243,35 @@
         },
         {
             id: "fri", dayName: "FRIDAY", subtitle: "Full Day", title: "CEREBELLUM & BLOOD SUPPLY", icon: day3Svg,
-<!-- ... existing code ... -->
-```
+            lectures: [
+                { id: "L30", code: "L30", subject: "Physiology", title: "Cerebellum" },
+                { id: "L31", code: "L31", subject: "Anatomy", title: "Blood Supply of the CNS" },
+                { id: "L34", code: "L34", subject: "Parasitology", title: "Free-Living Amoeba" },
+                { id: "L37", code: "L37", subject: "Physiology", title: "Thalamus & Reticular Activating System" },
+                { id: "L35", code: "L35", subject: "Anatomy", title: "Blood Supply of Head & Neck" }
+            ]
+        },
+        {
+            id: "sat", dayName: "SATURDAY", subtitle: "Full Day", title: "NECK & CNS INFECTIONS", icon: day4Svg,
+            lectures: [
+                { id: "L32", code: "L32", subject: "Physiology", title: "Vestibular Apparatus" },
+                { id: "L36", code: "L36", subject: "Pharmacology", title: "Anti-Psychotic Drugs" },
+                { id: "L39", code: "L39", subject: "Anatomy", title: "Anterior & Posterior Triangle of the Neck" },
+                { id: "L40", code: "L40", subject: "Pathology", title: "CNS Infections" }
+            ]
+        }
+    ];
 
-```html:CNS Rescue Planner:cns_rescue_planner.html
-<!-- ... existing code ... -->
+    const themeToggle = document.getElementById('theme-toggle');
+    const currentTheme = localStorage.getItem('theme') || 'light';
+    
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggle.innerHTML = '☀️';
+    } else {
+        themeToggle.innerHTML = '🌙';
+    }
+
     themeToggle.addEventListener('click', () => {
         document.body.classList.toggle('dark-mode');
         let theme = 'light';
@@ -76,12 +284,129 @@
         localStorage.setItem('theme', theme);
     });
 
-    let savedProgress = JSON.parse(localStorage.getItem('cnsPlan20LecsRescue')) || JSON.parse(localStorage.getItem('cnsPlan17Lecs4Days')) || {};
+    // Using a reliable specific key for this plan
+    let savedProgress = JSON.parse(localStorage.getItem('cnsRescuePlanFinal20')) || {};
 
     function saveProgress() {
-        localStorage.setItem('cnsPlan20LecsRescue', JSON.stringify(savedProgress));
+        localStorage.setItem('cnsRescuePlanFinal20', JSON.stringify(savedProgress));
         updateProgressBars();
     }
 
     function toggleCheckboxes(lecId, rowId) {
-<!-- ... existing code ... -->
+        const lecCheckbox = document.getElementById(lecId);
+        const mcqCheckbox = document.getElementById(lecId + '_mcq');
+        const row = document.getElementById(rowId);
+        
+        savedProgress[lecId] = lecCheckbox.checked;
+        savedProgress[lecId + '_mcq'] = mcqCheckbox.checked;
+        
+        if (lecCheckbox.checked && mcqCheckbox.checked) {
+            row.classList.add('completed');
+        } else {
+            row.classList.remove('completed');
+        }
+        
+        saveProgress();
+    }
+
+    function updateProgressBars() {
+        let totalTasks = 0;
+        let completedTasks = 0;
+
+        scheduleData.forEach(dayData => {
+            let dayTotalTasks = dayData.lectures.length * 2;
+            let dayCompletedTasks = 0;
+
+            dayData.lectures.forEach(lec => {
+                totalTasks += 2;
+                if (savedProgress[lec.id]) {
+                    completedTasks++;
+                    dayCompletedTasks++;
+                }
+                if (savedProgress[lec.id + '_mcq']) {
+                    completedTasks++;
+                    dayCompletedTasks++;
+                }
+            });
+
+            const dayBar = document.getElementById(`day-fill-${dayData.id}`);
+            if(dayBar) {
+                dayBar.style.width = `${(dayCompletedTasks / dayTotalTasks) * 100}%`;
+            }
+        });
+
+        const overallPercentage = totalTasks === 0 ? 0 : Math.round((completedTasks / totalTasks) * 100);
+        document.getElementById('overall-percentage').innerText = `${overallPercentage}%`;
+        document.getElementById('overall-fill').style.width = `${overallPercentage}%`;
+    }
+
+    function renderSchedule() {
+        const container = document.getElementById('schedule-container');
+        container.innerHTML = ''; 
+
+        scheduleData.forEach(dayData => {
+            let rowsHtml = '';
+            dayData.lectures.forEach(lec => {
+                const isLecChecked = savedProgress[lec.id] ? 'checked' : '';
+                const isMcqChecked = savedProgress[lec.id + '_mcq'] ? 'checked' : '';
+                const completedClass = (isLecChecked && isMcqChecked) ? 'completed' : '';
+                const subjectClass = `subject-${lec.subject.toLowerCase()}`;
+                
+                rowsHtml += `
+                    <tr id="row-${lec.id}" class="${completedClass}">
+                        <td class="checkbox-cell" title="Mark Lecture as Done">
+                            <input type="checkbox" id="${lec.id}" class="check-lec" ${isLecChecked} 
+                                onchange="toggleCheckboxes('${lec.id}', 'row-${lec.id}')">
+                        </td>
+                        <td class="checkbox-cell" title="Mark MCQs as Done">
+                            <input type="checkbox" id="${lec.id}_mcq" class="check-mcq" ${isMcqChecked} 
+                                onchange="toggleCheckboxes('${lec.id}', 'row-${lec.id}')">
+                        </td>
+                        <td style="font-weight: 600; color: var(--text-muted);">${lec.code}</td>
+                        <td><span class="badge ${subjectClass}">${lec.subject}</span></td>
+                        <td><a class="lecture-link">${lec.title}</a></td>
+                    </tr>
+                `;
+            });
+
+            const dayHTML = `
+                <div class="day-section">
+                    <div class="day-card">
+                        <div class="day-number">${dayData.dayName}</div>
+                        <div class="day-date">${dayData.subtitle}</div>
+                        <div class="day-icon">${dayData.icon}</div>
+                        <div class="progress-bar-bg" style="width: 100%; height: 8px; margin-top: 15px;">
+                            <div class="progress-bar-fill" id="day-fill-${dayData.id}"></div>
+                        </div>
+                    </div>
+                    <div class="schedule-card">
+                        <h3 style="margin-bottom: 15px; color: var(--primary-color);">${dayData.title}</h3>
+                        <table class="lecture-table">
+                            <thead>
+                                <tr>
+                                    <th>📚 Lec</th>
+                                    <th>✅ MCQ</th>
+                                    <th>Lec. No.</th>
+                                    <th>Subject</th>
+                                    <th>Title</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${rowsHtml}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += dayHTML;
+        });
+
+        updateProgressBars();
+    }
+
+    window.onload = renderSchedule;
+
+</script>
+
+</body>
+</html>
